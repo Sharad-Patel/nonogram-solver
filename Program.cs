@@ -14,7 +14,7 @@ namespace nonogram_solver
             var driver = new ChromeDriver();
             // Navigate to Nonograms website
             //?size=1
-            driver.Navigate().GoToUrl(new Uri("https://www.puzzle-nonograms.com/"));
+            driver.Navigate().GoToUrl(new Uri("https://www.puzzle-nonograms.com/?size=2"));
 
             Thread.Sleep(2000);
 

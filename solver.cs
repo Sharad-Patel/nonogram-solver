@@ -11,15 +11,16 @@ namespace solver
         internal static Grid Solve(Map map)
         {
             Console.WriteLine("SOLVE: Starting...");
-            map = FirstPass(map);
-            map = SecondPass(map);
+            map = ComlpeteFullMapping(map);
+            map = FillOverlaps(map);
+            map = ExtendEdges(map);
             Console.WriteLine("SOLVE: Finished");
             return map.grid;
         }
 
-        internal static Map FirstPass(Map map)
+        internal static Map ComlpeteFullMapping(Map map)
         {
-            Console.WriteLine("SOLVE: First pass...");
+            Console.WriteLine("SOLVE: Comlpeting full maps...");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
@@ -75,13 +76,13 @@ namespace solver
 
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
-            Console.WriteLine("SOLVE: Finsihed first pass: " + ts.TotalMilliseconds + "ms");
+            Console.WriteLine("SOLVE: Finsihed comlpeting full maps: " + ts.TotalMilliseconds + "ms");
             return map;
         }
 
-        internal static Map SecondPass(Map map)
+        internal static Map FillOverlaps(Map map)
         {
-            Console.WriteLine("SOLVE: Second pass...");
+            Console.WriteLine("SOLVE: Filling overlaps...");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
@@ -127,7 +128,73 @@ namespace solver
 
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
-            Console.WriteLine("SOLVE: Finsihed second pass: " + ts.TotalMilliseconds + "ms");
+            Console.WriteLine("SOLVE: Finsihed filling overlaps: " + ts.TotalMilliseconds + "ms");
+            return map;
+        }
+
+        internal static Map ExtendEdges(Map map)
+        {
+            Console.WriteLine("SOLVE: Extending edges...");
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            var size = map.columnGroups.Count;
+
+            int column = 0;
+            foreach (var columnGroup in map.columnGroups)
+            {
+                if (map.grid.grid[0, column] == 1)
+                {
+                    for (int i = 0; i < columnGroup.First(); i++)
+                    {
+                        map.grid.grid[i, column] = 1;
+                    }
+                }
+                column++;
+            }
+
+            int row = 0;
+            foreach (var rowGroup in map.rowGroups)
+            {
+                if (map.grid.grid[row, 0] == 1)
+                {
+                    for (int j = 0; j < rowGroup.First(); j++)
+                    {
+                        map.grid.grid[row, j] = 1;
+                    }
+                }
+                row++;
+            }
+
+            column = 0;
+            foreach (var columnGroup in map.columnGroups)
+            {
+                if (map.grid.grid[size - 1, column] == 1)
+                {
+                    for (int i = size - 1; i > size - 1 - columnGroup.Last(); i--)
+                    {
+                        map.grid.grid[i, column] = 1;
+                    }
+                }
+                column++;
+            }
+
+            row = 0;
+            foreach (var rowGroup in map.rowGroups)
+            {
+                if (map.grid.grid[row, size - 1] == 1)
+                {
+                    for (int j = size - 1; j < size - 1 - rowGroup.Last(); j--)
+                    {
+                        map.grid.grid[row, j] = 1;
+                    }
+                }
+                row++;
+            }
+
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            Console.WriteLine("SOLVE: Finsihed extending edges: " + ts.TotalMilliseconds + "ms");
             return map;
         }
     }

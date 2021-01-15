@@ -40,34 +40,34 @@ namespace scanner
                     .ToList();
                 map.rowGroups.Add(rowGroupValues);
             }
-            Console.WriteLine("SCAN: Scanning grid...");
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    var cell = driver.FindElement(By.CssSelector($".row:nth-child({i+1}) .cell:nth-child({j+1})"));
-                    var selected = cell.Selected;
-                    var classes = cell.GetAttribute("class");
-                    int value = 0;
-                    if (classes.Contains("cell-on"))
-                    {
-                        value = 1;
-                    }
-                    else if (classes.Contains("cell-x"))
-                    {
-                        value = -1;
-                    }
-                    else if (classes.Contains("cell-off"))
-                    {
-                        value = 0;
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid cell");
-                    }
-                    map.grid.grid[i,j] = value;
-                }
-            }
+            // Console.WriteLine("SCAN: Scanning grid...");
+            // for (int i = 0; i < size; i++)
+            // {
+            //     for (int j = 0; j < size; j++)
+            //     {
+            //         var cell = driver.FindElement(By.CssSelector($".row:nth-child({i+1}) .cell:nth-child({j+1})"));
+            //         var selected = cell.Selected;
+            //         var classes = cell.GetAttribute("class");
+            //         int value = 0;
+            //         if (classes.Contains("cell-on"))
+            //         {
+            //             value = 1;
+            //         }
+            //         else if (classes.Contains("cell-x"))
+            //         {
+            //             value = -1;
+            //         }
+            //         else if (classes.Contains("cell-off"))
+            //         {
+            //             value = 0;
+            //         }
+            //         else
+            //         {
+            //             throw new Exception("Invalid cell");
+            //         }
+            //         map.grid.grid[i,j] = value;
+            //     }
+            // }
             Console.WriteLine("SCAN: Finished");
             return map;
         }
